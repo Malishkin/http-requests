@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useCallback} from "react";
 
 import JokeList from "./components/JokeList";
+import AddJoke from "./components/AddJoke";
 import "./App.css";
 
 function App() {
@@ -58,23 +59,12 @@ function App() {
     fetchJokesHandler();
   },[fetchJokesHandler]);
 
+ function addJokeHandler(joke){
+   setJokes((prevJokes)=>{
+     return [joke, ...prevJokes];
+   });
 
-
-  // async function fetchJokesHandler() {
-  //   setIsLoading(true);
-  //   setError(null);
-  //   try{
-  //     const response = await fetch("https://official-joke-api.appspot.com/random_ten"); 
-  //     if(!response.ok){
-  //       throw new Error("Something went wrong!");
-  //     }    
-  //     const data = await response.json();
-     
-  //     setJokes(data);
-  //   } catch(e){
-  //     setError(e.message);}
-  //     setIsLoading(false);
-  //   }
+  }
 
     let content = <p>Found no jokes.</p>;
     if(jokes.length>0){
@@ -90,6 +80,9 @@ function App() {
 
   return (
     <React.Fragment>
+      <section>
+        <AddJoke onAddJoke={addJokeHandler} />
+      </section>
       <section>
         <button onClick={fetchJokesHandler}>Fetch Jokes</button>
       </section>
