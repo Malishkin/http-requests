@@ -27,7 +27,7 @@ function App() {
     setError(null);
     try {
       const response = await fetch(
-        "https://official-joke-api.appspot.com/random_ten"
+        "https://react-course-http-9f55c-default-rtdb.firebaseio.com/jokes"
       );
 
       if (!response.ok) {
@@ -59,12 +59,20 @@ function App() {
     fetchJokesHandler();
   },[fetchJokesHandler]);
 
- function addJokeHandler(joke){
-   setJokes((prevJokes)=>{
-     return [joke, ...prevJokes];
-   });
-
-  }
+ async function addJokeHandler(joke) {
+   const response = await fetch(
+     "https://react-course-http-8220d-default-rtdb.firebaseio.com/jokes.json",
+     {
+       method: "POST",
+       body: JSON.stringify(joke),
+       headers: {
+         "Content-Type": "application/json",
+       },
+     }
+   );
+   const data = await response.json();
+   console.log(data);
+ }
 
     let content = <p>Found no jokes.</p>;
     if(jokes.length>0){
