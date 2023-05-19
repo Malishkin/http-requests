@@ -19,7 +19,7 @@ function App() {
       );
 
       if (!response.ok) {
-        throw new Error("Что-то пошло не так...");
+        throw new Error("Something went wrong...");
       }
 
       const data = await response.json();
@@ -93,7 +93,7 @@ function App() {
     fetchJokesHandler(); // Fetch jokes again after deleting a joke
   }
 
-  let content = <p>Шуток не найдено.</p>;
+  let content = <p>No jokes yet.</p>;
 
   if (jokes !== null && jokes !== undefined && jokes.length > 0) {
     content = (
@@ -110,7 +110,7 @@ function App() {
   }
 
   if (isLoading) {
-    content = <p>Загрузка шуток...</p>;
+    content = <p>Loading jokes...</p>;
   }
 
   return (

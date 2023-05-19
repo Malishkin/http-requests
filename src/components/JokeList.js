@@ -52,13 +52,14 @@ const JokeList = ({ jokes, onUpdateJoke, onDeleteJoke }) => {
               />
               <div>
                 <button onClick={handleUpdateJoke}>Save</button>
-                <button onClick={handleCancelUpdate}>Cancel</button>
+                <div><button onClick={handleCancelUpdate}>Cancel</button></div>
+                
               </div>
             </div>
           ) : (
             <div>
               <button onClick={() => setUpdatedJoke(joke)}>Update Joke</button>
-              <button onClick={() => onDeleteJoke(joke.id)}>Delete Joke</button>
+              <div><button onClick={() => onDeleteJoke(joke.id)}>Delete Joke</button></div>          
             </div>
           )}
         </div>
