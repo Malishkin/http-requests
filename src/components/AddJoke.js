@@ -10,11 +10,11 @@ function AddJoke(props) {
         </div>
         <div className={styles.control}>
           <label htmlFor="setup">Setup</label>
-          <textarea  type="text" id="setup"></textarea>
+          <textarea rows={5}  type="text" id="setup"></textarea>
         </div>
         <div className={styles.control}>
           <label htmlFor="punchline">Punchline</label>
-          <textarea  type="text" id="punchline"></textarea>
+          <textarea rows={5}  type="text" id="punchline"></textarea>
         </div>
     </form>
 };
