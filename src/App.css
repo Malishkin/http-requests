@@ -17,6 +17,7 @@ button {
   border: 1px solid #720f04;
   border-radius: 8px;
   padding: 0.75rem 2rem;
+  margin-bottom: 1rem;
 }
 
 button:hover,

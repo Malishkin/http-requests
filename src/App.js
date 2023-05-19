@@ -5,21 +5,6 @@ import "./App.css";
 import AddJoke from "./components/AddJoke";
 
 function App() {
-  // const dummyJokes = [
-  //   {
-  //     id: 1,
-  //     type: "general",
-  //     setup: "What do you call a bee that lives in America?",
-  //     punchline: "A USB.",
-  //   },
-  //   {
-  //     id: 2,
-  //     type: "programming",
-  //     setup: "What's the best thing about a Boolean?",
-  //     punchline: "Even if you're wrong, you're only off by a bit.",
-  //   },
-  // ];
-
   const [jokes, setJokes] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -35,8 +20,8 @@ function App() {
       if (!response.ok) {
         throw new Error("Что-то пошло не так...");
       }
-      const data = await response.json();
 
+      const data = await response.json();
       const loadedJokes = [];
 
       for (const key in data) {
@@ -72,12 +57,47 @@ function App() {
     );
     const data = await response.json();
     console.log(data);
+    fetchJokesHandler(); // Fetch jokes again after adding a new joke
+  }
+
+  async function updateJokeHandler(id, updatedJoke) {
+    const response = await fetch(
+      `https://react-course-http-9f55c-default-rtdb.firebaseio.com/jokes/${id}.json`,
+      {
+        method: "PUT",
+        body: JSON.stringify(updatedJoke),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const data = await response.json();
+    console.log(data);
+    fetchJokesHandler(); // Fetch jokes again after updating a joke
+  }
+
+  async function deleteJokeHandler(id) {
+    const response = await fetch(
+      `https://react-course-http-9f55c-default-rtdb.firebaseio.com/jokes/${id}.json`,
+      {
+        method: "DELETE",
+      }
+    );
+    const data = await response.json();
+    console.log(data);
+    fetchJokesHandler(); // Fetch jokes again after deleting a joke
   }
 
   let content = <p>Шуток не найдено.</p>;
 
   if (jokes !== null && jokes !== undefined && jokes.length > 0) {
-    content = <JokeList jokes={jokes} />;
+    content = (
+      <JokeList
+        jokes={jokes}
+        onUpdateJoke={updateJokeHandler}
+        onDeleteJoke={deleteJokeHandler}
+      />
+    );
   }
 
   if (error) {
@@ -94,17 +114,13 @@ function App() {
         <AddJoke onAddJoke={addJokeHandler} />
       </section>
       <section>
-        <button onClick={fetchJokesHandler}>Fetch Jokes</button>
-      </section>
-      <section>
-        {content}
-        {/* {!isLoading && jokes.length > 0 && <JokeList jokes={jokes} />}
-        {!isLoading && jokes.length === 0 && !error && <p>Шуток не найдено.</p>}
-        {isLoading && <p>Загрузка шуток...</p>}
-        {!isLoading && error && <p>{error}</p>} */}
-      </section>
-    </React.Fragment>
-  );
+	    <button onClick={fetchJokesHandler}>Fetch Jokes</button>
+</section>
+<section>
+  {content}
+</section>
+</React.Fragment>
+);
 }
 
 export default App;
