@@ -8,6 +8,7 @@ function App() {
   const [jokes, setJokes] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [joke, setJoke] = useState({ type: "", setup: "", punchline: "" }); // Add state for the form inputs
 
   const fetchJokesHandler = useCallback(async () => {
     setIsLoading(true);
@@ -58,6 +59,10 @@ function App() {
     const data = await response.json();
     console.log(data);
     fetchJokesHandler(); // Fetch jokes again after adding a new joke
+
+    // Clear the form fields
+    const initialJoke = { type: "", setup: "", punchline: "" };
+    setJoke(initialJoke); // Update the line to setJoke instead of setJokes
   }
 
   async function updateJokeHandler(id, updatedJoke) {
@@ -111,16 +116,15 @@ function App() {
   return (
     <React.Fragment>
       <section>
-        <AddJoke onAddJoke={addJokeHandler} />
+        <AddJoke onAddJoke={addJokeHandler} joke={joke} setJoke={setJoke} />
       </section>
       <section>
-	    <button onClick={fetchJokesHandler}>Fetch Jokes</button>
-</section>
-<section>
-  {content}
-</section>
-</React.Fragment>
-);
+        <button onClick={fetchJokesHandler}>Fetch Jokes</button>
+      </section>
+      <section>{content}</section>
+    </React.Fragment>
+  );
 }
 
 export default App;
+
